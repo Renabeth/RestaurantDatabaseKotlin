@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
+
+//I was having an issue with the information from the database displaying on the emulator, but it seemed to work fine on my phone. Unsure if that will be the case for your machine. Thank you
 @Composable
 fun RestaurantScreen(modifier: Modifier) {
    // val viewModel = RestaurantScreenViewModel(LocalContext.current.applicationContext as Application)
@@ -45,8 +47,8 @@ fun RestaurantScreen(modifier: Modifier) {
 
             for (restaurant in restaurantList) {
                 Text(restaurant.name)
-                Text(restaurant.location.toString())
-                Text(restaurant.rating.toString())
+                Text("Location: " + restaurant.location.toString())
+                Text("Rating: "+ restaurant.rating.toString())
 
             }
         }

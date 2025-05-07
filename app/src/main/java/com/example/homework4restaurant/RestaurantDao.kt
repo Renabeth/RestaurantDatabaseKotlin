@@ -21,4 +21,8 @@ interface RestaurantDao {
     @Query("SELECT * FROM restaurant")
     fun getAllRestaurants(): Flow<List<Restaurant>>
 
+
+    @Query("SELECT COUNT(*) FROM restaurant")
+    suspend fun getCount(): Int
+
 }

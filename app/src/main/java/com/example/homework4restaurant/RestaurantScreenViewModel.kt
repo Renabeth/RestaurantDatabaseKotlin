@@ -52,20 +52,24 @@ class RestaurantScreenViewModel(var applicationContext: Application) : AndroidVi
     }
 
     suspend fun fillDBWithData() {
-        restaurantDB.restaurantDao()?.deleteAll()
-        val r1 = Restaurant("The Melting Pot", "Farmingdale",4.0)
-        restaurantDB.restaurantDao()!!.insert(r1)
-        val r2 = Restaurant("Burger King", "Farmingdale", 2.0)
-        restaurantDB.restaurantDao()!!.insert(r2)
-        val r3 = Restaurant("The Lakehouse", "Bay Shore", 4.5)
-        restaurantDB.restaurantDao()!!.insert(r3)
-        val r4 = Restaurant("Miller's Ale House", "Levittown", 3.5)
-        restaurantDB.restaurantDao()!!.insert(r4)
-        val r5 = Restaurant("Secret Thai Kitchen", "Freeport", 4.0)
-        restaurantDB.restaurantDao()!!.insert(r5)
-        val r6 = Restaurant("Cafe Continental", "Manhasset", 4.0)
-        restaurantDB.restaurantDao()!!.insert(r6)
-        val r7 = Restaurant("Friendly's", "Stony Brook", 2.5)
-        restaurantDB.restaurantDao()!!.insert(r7)
+        val count = restaurantDB.restaurantDao()?.getCount() ?: 0
+
+        if (count == 0) {
+            val r1 = Restaurant("The Melting Pot", "Farmingdale", 4.0)
+            val r2 = Restaurant("Burger King", "Farmingdale", 2.0)
+            val r3 = Restaurant("The Lakehouse", "Bay Shore", 4.5)
+            val r4 = Restaurant("Miller's Ale House", "Levittown", 3.5)
+            val r5 = Restaurant("Secret Thai Kitchen", "Freeport", 4.0)
+            val r6 = Restaurant("Cafe Continental", "Manhasset", 4.0)
+            val r7 = Restaurant("Friendly's", "Stony Brook", 2.5)
+
+            restaurantDB.restaurantDao()?.insert(r1)
+            restaurantDB.restaurantDao()?.insert(r2)
+            restaurantDB.restaurantDao()?.insert(r3)
+            restaurantDB.restaurantDao()?.insert(r4)
+            restaurantDB.restaurantDao()?.insert(r5)
+            restaurantDB.restaurantDao()?.insert(r6)
+            restaurantDB.restaurantDao()?.insert(r7)
+        }
     }
 }
