@@ -21,13 +21,14 @@ class RestaurantScreenViewModel(var applicationContext: Application) : AndroidVi
         private set
     var restaurantDB:RestaurantDatabase
 
-    val showBackgroundPicStateFlow: StateFlow<Boolean>
+    val showRatingsStateFlow: StateFlow<Boolean>
 
     init {
         val context: Context = getApplication<Application>().applicationContext
         myPreferences = MyPreferences(context)
-        showBackgroundPicStateFlow =
-            myPreferences.watchShowPic().stateIn(viewModelScope, SharingStarted.Lazily, false)
+        showRatingsStateFlow =
+            myPreferences.watchShowRatings().stateIn(viewModelScope, SharingStarted.Lazily, true)
+
 
         restaurantDB = Room.databaseBuilder(
             applicationContext,
@@ -44,12 +45,13 @@ class RestaurantScreenViewModel(var applicationContext: Application) : AndroidVi
     }
 
 
-    fun toggleShowBackgroundPic() {
+    fun toggleShowRatings() {
         viewModelScope.launch {
-            val newShowPicValue: Boolean = !showBackgroundPicStateFlow.value
-            myPreferences.updateShowPic(newShowPicValue)
+            val newValue = !showRatingsStateFlow.value
+            myPreferences.updateShowRatings(newValue)
         }
     }
+
 
     suspend fun fillDBWithData() {
         val count = restaurantDB.restaurantDao()?.getCount() ?: 0

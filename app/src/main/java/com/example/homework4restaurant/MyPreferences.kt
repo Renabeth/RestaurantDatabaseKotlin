@@ -9,20 +9,23 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import com.example.homework4restaurant.MyPreferences.PreferenceKeys.showBackgroundPic
+import com.example.homework4restaurant.MyPreferences.PreferenceKeys.showRatings
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class MyPreferences (val context: Context) {
     object PreferenceKeys {
-        val showBackgroundPic : Preferences.Key<Boolean> = booleanPreferencesKey("showBackgroundPic")
+        val showRatings: Preferences.Key<Boolean> = booleanPreferencesKey("showRatings")
     }
-    suspend fun updateShowPic(newShowBackgroundPicValue: Boolean) =
-        context.dataStore.edit { preferences: MutablePreferences ->
-            preferences[showBackgroundPic] = newShowBackgroundPicValue
+
+    suspend fun updateShowRatings(newValue: Boolean) =
+        context.dataStore.edit { preferences ->
+            preferences[PreferenceKeys.showRatings] = newValue
         }
-    fun watchShowPic(): Flow<Boolean> = context.dataStore.data.map { preferences: Preferences ->
-        return@map preferences[showBackgroundPic] ?: false
-    }
-    //
+
+    fun watchShowRatings(): Flow<Boolean> =
+        context.dataStore.data.map { preferences ->
+            preferences[PreferenceKeys.showRatings] ?: true // default
+        }
+
 }

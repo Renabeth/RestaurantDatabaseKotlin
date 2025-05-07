@@ -34,7 +34,7 @@ fun DisplayTopAppBar(navController: NavHostController) {
         title = { Text(text = "Restaurant App") },
         navigationIcon = {
             IconButton(onClick = {
-                navHostController.navigate("SettingsScreen")
+                navController.popBackStack()
             })
 
             {

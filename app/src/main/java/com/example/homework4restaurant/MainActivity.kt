@@ -74,9 +74,10 @@ class MainActivity : ComponentActivity() {
 
                     topBar = {
                         //DisplayTopAppBar()
-                        DisplayTopAppBar(navController = navHostController)
-                        MyFAB()
+                        DisplayTopAppBar(navHostController)
+
                     },
+                    floatingActionButton = { MyFAB() },
 
                     bottomBar = {
                         NavigationBar {
@@ -146,10 +147,11 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun MyFAB() {
+//navController: NavHostController for some reason the restaurant text would disappear when I added the click handler for the FAB
         FloatingActionButton(
             onClick = {
-// FAB click handler code goes here
-            },
+               // navController.navigate("AddRestaurantScreen")
+                },
         ) {
             Icon(Icons.Filled.Add, "Floating action button.")
         }

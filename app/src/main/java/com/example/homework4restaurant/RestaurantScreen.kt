@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.homework4restaurant.MyPreferences.PreferenceKeys.showRatings
 import java.lang.Integer.parseInt
 
 
@@ -34,7 +35,7 @@ fun RestaurantScreen(modifier: Modifier) {
     val viewModel =
         androidx.lifecycle.viewmodel.compose.viewModel { RestaurantScreenViewModel(context.applicationContext as Application) }
 
-    val showPicBackgroundPicLocal: Boolean by viewModel.showBackgroundPicStateFlow.collectAsState()
+    val showRatings by viewModel.showRatingsStateFlow.collectAsState()
 
     lateinit var restaurantDB: RestaurantDatabase
     val restaurantList by remember { viewModel.restaurantList }
@@ -49,12 +50,8 @@ fun RestaurantScreen(modifier: Modifier) {
 
                 items(restaurantList) { currentItem ->
 
-                    Button(onClick = { viewModel.toggleShowBackgroundPic() })
-                    {
-                        Text(text = "Toggle Ratings On/Off")
-                    }
 
-                    Text("Show Background Pic Value = " + showPicBackgroundPicLocal.toString())
+
                    // Text("Restaurants", color = MaterialTheme.colorScheme.primary, fontSize = 28.sp, fontWeight = FontWeight.Bold)
 
 
@@ -62,7 +59,9 @@ fun RestaurantScreen(modifier: Modifier) {
 
                         Text("Name: ${currentItem.name}", color = MaterialTheme.colorScheme.primary)
                         Text("Location: ${currentItem.location}", color= Color.Magenta)
-                        Text("Rating: ${currentItem.rating}", color= Color.Magenta)
+                        if (showRatings) {
+                            Text("Rating: ${currentItem.rating}", color= Color.Magenta)
+                        }
                     }
                 }
             }
