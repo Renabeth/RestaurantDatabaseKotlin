@@ -29,37 +29,44 @@ import java.lang.Integer.parseInt
 //I was having an issue with the information from the database displaying on the emulator, but it seemed to work fine on my phone. Unsure if that will be the case for your machine. Thank you
 @Composable
 fun RestaurantScreen(modifier: Modifier) {
-   // val viewModel = RestaurantScreenViewModel(LocalContext.current.applicationContext as Application)
+    // val viewModel = RestaurantScreenViewModel(LocalContext.current.applicationContext as Application)
     val context = LocalContext.current
-    val viewModel = androidx.lifecycle.viewmodel.compose.viewModel { RestaurantScreenViewModel(context.applicationContext as Application) }
+    val viewModel =
+        androidx.lifecycle.viewmodel.compose.viewModel { RestaurantScreenViewModel(context.applicationContext as Application) }
 
     val showPicBackgroundPicLocal: Boolean by viewModel.showBackgroundPicStateFlow.collectAsState()
 
-    lateinit var restaurantDB:RestaurantDatabase
-    val restaurantList  by remember {viewModel.restaurantList}
+    lateinit var restaurantDB: RestaurantDatabase
+    val restaurantList by remember { viewModel.restaurantList }
 
 
-    Surface(Modifier.padding(10.dp).fillMaxWidth(), shape = RoundedCornerShape(10.dp), shadowElevation = 30.dp) {
 
-        LazyColumn(modifier) {
-        items(restaurantList) { currentItem ->
-                Text("Restaurants", color = MaterialTheme.colorScheme.primary, fontSize = 28.sp, fontWeight = FontWeight.Bold)
-                Button(onClick = { viewModel.toggleShowBackgroundPic() }
 
-                )
-                {
-                    Text(text = "Toggle Ratings On/Off")
-                }
-                Text("Show Background Pic Value = " + showPicBackgroundPicLocal.toString())
+        Surface(Modifier.padding(10.dp).fillMaxSize(), shape = RoundedCornerShape(10.dp), shadowElevation = 30.dp) {
 
-                for (restaurant in restaurantList) {
-                    Text(restaurant.name, color = MaterialTheme.colorScheme.primary)
-                    Text("Location: " + restaurant.location.toString(), color= Color.Magenta)
-                    Text("Rating: " + restaurant.rating.toString(), color= Color.Magenta)
 
+            LazyColumn() {
+
+                items(restaurantList) { currentItem ->
+
+                    Button(onClick = { viewModel.toggleShowBackgroundPic() })
+                    {
+                        Text(text = "Toggle Ratings On/Off")
+                    }
+
+                    Text("Show Background Pic Value = " + showPicBackgroundPicLocal.toString())
+                   // Text("Restaurants", color = MaterialTheme.colorScheme.primary, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+
+
+                    Column(modifier = Modifier.padding(8.dp)) {
+
+                        Text("Name: ${currentItem.name}", color = MaterialTheme.colorScheme.primary)
+                        Text("Location: ${currentItem.location}", color= Color.Magenta)
+                        Text("Rating: ${currentItem.rating}", color= Color.Magenta)
+                    }
                 }
             }
         }
     }
-}
+
 

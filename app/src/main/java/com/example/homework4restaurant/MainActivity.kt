@@ -16,6 +16,7 @@ import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -42,18 +43,23 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
 
+
+
+
             val navItemsList = listOf(
                 MyNavItem(
-                    title="RestaurantScreen",
+                    title = "Restaurants",
                     iconSelected = Icons.Filled.Home,
                     iconUnselected = Icons.Outlined.Home,
-                    route="RestaurantScreen"
+                    route = "RestaurantScreen"
                 ),
-                MyNavItem(title="AddRestaurantScreen",
-                    iconSelected = Icons.Filled.AccountBox,
-                    iconUnselected = Icons.Outlined.AccountBox,
-                    route="AddRestaurantScreen"
+                MyNavItem(
+                    title = "Add Restaurant",
+                    iconSelected = Icons.Filled.Add,
+                    iconUnselected = Icons.Outlined.Add,
+                    route = "AddRestaurantScreen"
                 )
+
 
             )
 
@@ -65,56 +71,86 @@ class MainActivity : ComponentActivity() {
 
             Homework4RestaurantTheme {
                 Scaffold(
+
+                    topBar = {
+                        //DisplayTopAppBar()
+                        DisplayTopAppBar(navController = navHostController)
+                        MyFAB()
+                    },
+
                     bottomBar = {
                         NavigationBar {
                             navItemsList.forEachIndexed { index, item ->
                                 NavigationBarItem(
-                                    selected = currentDestination?.hierarchy?.any { it.route.equals(item.route) } == true,
+                                    selected = currentDestination?.hierarchy?.any {
+                                        it.route.equals(
+                                            item.route
+                                        )
+                                    } == true,
                                     onClick = {
                                         selectedItemIndex = index
                                         navHostController.navigate(item.route) {
-                                            popUpTo(navHostController.graph.findStartDestination().id) { saveState = true }
+                                            popUpTo(navHostController.graph.findStartDestination().id) {
+                                                saveState = true
+                                            }
                                             launchSingleTop = true
                                             restoreState = true
                                         } // end - navigate
-                                        Toast.makeText(context, item.title, Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, item.title, Toast.LENGTH_SHORT)
+                                            .show()
                                     },
                                     label = { Text(text = item.title) },
-                                    icon = { Icon(contentDescription = item.title,
-                                        imageVector = if (index == selectedItemIndex) item.iconSelected
-                                        else item.iconUnselected
-                                    )
+                                    icon = {
+                                        Icon(
+                                            contentDescription = item.title,
+                                            imageVector = if (index == selectedItemIndex) item.iconSelected
+                                            else item.iconUnselected
+                                        )
                                     }
                                 ) // end – NavigationBarItem
                             } // end – forEachIndexed
                         } // end - NavigationBar
 
                     },
-                    modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    modifier = Modifier.fillMaxSize()
+                ) { innerPadding ->
                     Nav(
                         navHostController = navHostController,
                         Modifier.padding(innerPadding)
 
                     )
 
+
+
+                    }
                 }
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Homework4RestaurantTheme {
-        Greeting("Android")
+    @Composable
+    fun Greeting(name: String, modifier: Modifier = Modifier) {
+        Text(
+            text = "Hello $name!",
+            modifier = modifier
+        )
     }
-}
+
+    @Preview(showBackground = true)
+    @Composable
+    fun GreetingPreview() {
+        Homework4RestaurantTheme {
+            Greeting("Android")
+        }
+    }
+
+    @Composable
+    fun MyFAB() {
+        FloatingActionButton(
+            onClick = {
+// FAB click handler code goes here
+            },
+        ) {
+            Icon(Icons.Filled.Add, "Floating action button.")
+        }
+    }

@@ -18,6 +18,8 @@ fun Nav(navHostController: NavHostController, modifier: Modifier) {
         composable(route="AddRestaurantScreen") {
             AddRestaurantScreen(modifier)
         }
-
+        composable(route="SettingsScreen") {
+            SettingsScreen(modifier)
+        }
     }
 }
