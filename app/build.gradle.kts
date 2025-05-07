@@ -45,6 +45,8 @@ dependencies {
 
     implementation("androidx.datastore:datastore-core:1.0.0")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation(libs.androidx.navigation.runtime.android)
+    implementation(libs.androidx.navigation.compose)
 
     var roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
